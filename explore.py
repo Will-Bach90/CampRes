@@ -162,10 +162,12 @@ def run(playwright: Playwright) -> None:
     page.get_by_label("Search for availability").click()
     page.get_by_label("List view of results").click()
     page.get_by_label(LOOP).click()
+    page.get_by_label("Show available sites only").uncheck()
+    page.locator("#loadMoreButton").click()
 
     wait_for_park_time(page, target)
 
-    page.reload(wait_until="commit")
+    # page.reload(wait_until="commit")
 
     reserve_site(page, CAMP_SITE)
     page.get_by_role("button", name="Confirm").click()
@@ -176,6 +178,7 @@ def run(playwright: Playwright) -> None:
         page.get_by_label("Make a Reservation (Home)").click()
         page.get_by_label("Search for availability").click()
         page.get_by_label("List view of results").click()
+        page.locator("#loadMoreButton").click()
 
         reserve_site(page, BACKUP_SITE)
         page.get_by_label("All reservation details are").check()
