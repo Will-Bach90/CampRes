@@ -9,8 +9,8 @@ from time import perf_counter
 
 MONTH = "May"
 
-START_DATE = MONTH + " 28,"
-END_DATE = MONTH + " 31,"
+START_DATE = MONTH + " 3,"
+END_DATE = MONTH + " 4,"
 
 LOOP = "Site Lower Loop A"
 
@@ -21,10 +21,10 @@ BACKUP_SITE = 88
 
 OPEN_YEAR = 2026
 OPEN_MONTH = 8
-OPEN_DAY = 28
-OPEN_HOUR = 7           # military time
-OPEN_MINUTE = 0
-OPEN_SECOND = 0
+OPEN_DAY = 27
+OPEN_HOUR = 22           # military time
+OPEN_MINUTE = 49
+OPEN_SECOND = 15
 
 target = datetime(
     OPEN_YEAR, 
@@ -82,7 +82,6 @@ def wait_for_park_time(page, target):
     print(f"Synchronizing on: {next_time_str}")
 
     # Wait for the exact next second using the mechanism
-    # we've verified works.
     page.wait_for_function(
         """target => {
             const el = document.querySelector("#systemTime > div");
@@ -164,13 +163,9 @@ def run(playwright: Playwright) -> None:
     page.get_by_label("List view of results").click()
     page.get_by_label(LOOP).click()
 
-    load_more_sites(page)
-
     wait_for_park_time(page, target)
 
     page.reload(wait_until="commit")
-
-    load_more_sites(page)
 
     reserve_site(page, CAMP_SITE)
     page.get_by_role("button", name="Confirm").click()
@@ -181,7 +176,6 @@ def run(playwright: Playwright) -> None:
         page.get_by_label("Make a Reservation (Home)").click()
         page.get_by_label("Search for availability").click()
         page.get_by_label("List view of results").click()
-        load_more_sites(page)
 
         reserve_site(page, BACKUP_SITE)
         page.get_by_label("All reservation details are").check()
