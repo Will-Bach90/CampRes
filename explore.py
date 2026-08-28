@@ -9,8 +9,8 @@ from time import perf_counter
 
 MONTH = "May"
 
-START_DATE = MONTH + " 3,"
-END_DATE = MONTH + " 4,"
+START_DATE = MONTH + " 28,"
+END_DATE = MONTH + " 31,"
 
 LOOP = "Site Lower Loop A"
 
@@ -21,10 +21,10 @@ BACKUP_SITE = 88
 
 OPEN_YEAR = 2026
 OPEN_MONTH = 8
-OPEN_DAY = 27
-OPEN_HOUR = 22           # military time
-OPEN_MINUTE = 49
-OPEN_SECOND = 15
+OPEN_DAY = 28
+OPEN_HOUR = 7          # military time
+OPEN_MINUTE = 0
+OPEN_SECOND = 0
 
 target = datetime(
     OPEN_YEAR, 
