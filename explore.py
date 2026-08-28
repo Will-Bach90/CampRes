@@ -165,11 +165,21 @@ def run(playwright: Playwright) -> None:
     page.get_by_label("Show available sites only").uncheck()
     page.locator("#loadMoreButton").click()
 
+    site = page.get_by_label(f"Site {CAMP_SITE}", exact=True)
+    site.click()
+
+    panel = site.locator("xpath=..")
+
+    reserve = panel.locator('[id^="reserveButton-"]')
+    reserve.wait_for(state="visible")
+
     wait_for_park_time(page, target)
 
-    # page.reload(wait_until="commit")
+    reserve.click()
+    print(f"Site {CAMP_SITE}:")
 
-    reserve_site(page, CAMP_SITE)
+    # page.reload(wait_until="commit")
+    # reserve_site(page, CAMP_SITE)
     page.get_by_role("button", name="Confirm").click()
     page.get_by_label("All reservation details are").check()
     page.locator("#confirmReservationDetails").click()
