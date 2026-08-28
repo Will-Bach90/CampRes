@@ -12,13 +12,17 @@ MONTH = "May"
 START_DATE = MONTH + " 28,"
 END_DATE = MONTH + " 31,"
 
-DUAL_SITE = 51
-BACKUP_SITE = 49
+LOOP = "Site Lower Loop A"
+
+CAMP_SITE = 86
+
+USE_BACKUP = True
+BACKUP_SITE = 88
 
 OPEN_YEAR = 2026
 OPEN_MONTH = 8
 OPEN_DAY = 28
-OPEN_HOUR = 7
+OPEN_HOUR = 7           # military time
 OPEN_MINUTE = 0
 OPEN_SECOND = 0
 
@@ -158,7 +162,7 @@ def run(playwright: Playwright) -> None:
     page.get_by_role("option", name="3 Tents").click()
     page.get_by_label("Search for availability").click()
     page.get_by_label("List view of results").click()
-    page.get_by_label("Site Forest Loop").click()
+    page.get_by_label(LOOP).click()
 
     load_more_sites(page)
 
@@ -168,19 +172,20 @@ def run(playwright: Playwright) -> None:
 
     load_more_sites(page)
 
-    reserve_site(page, DUAL_SITE)
+    reserve_site(page, CAMP_SITE)
     page.get_by_role("button", name="Confirm").click()
     page.get_by_label("All reservation details are").check()
     page.locator("#confirmReservationDetails").click()
 
-    page.get_by_label("Make a Reservation (Home)").click()
-    page.get_by_label("Search for availability").click()
-    page.get_by_label("List view of results").click()
-    load_more_sites(page)
+    if USE_BACKUP:
+        page.get_by_label("Make a Reservation (Home)").click()
+        page.get_by_label("Search for availability").click()
+        page.get_by_label("List view of results").click()
+        load_more_sites(page)
 
-    reserve_site(page, BACKUP_SITE)
-    page.get_by_label("All reservation details are").check()
-    page.locator("#confirmReservationDetails").click()
+        reserve_site(page, BACKUP_SITE)
+        page.get_by_label("All reservation details are").check()
+        page.locator("#confirmReservationDetails").click()
   
     page.locator("#proceedToCheckout").click()
 
